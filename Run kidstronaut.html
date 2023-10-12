@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial scale=1.0">
+<title>Run kidstronaut!</title>
+</head>
+<body>
+<!--<img class="pause" src="file:///home/ayanshh/Music/my%20drawings./my%20files%20if%20i%20want/mario-game/assets/Pause or Paused.png" onclick="window.open('file:///home/ayanshh/Music/my%20drawings./my%20files%20if%20i%20want/mario-game/Game%20Pause%20webpage.html', '_self')">-->
+<canvas id="canvas1">
+</canvas>
+<img id="playerImage" src="file:///home/ayanshh/Music/my%20drawings./my%20files%20if%20i%20want/mario-game/assets/player.png" width="1000px">
+<img id="backgroundImage" src="file:///home/ayanshh/Music/my%20drawings./my%20files%20if%20i%20want/mario-game/assets/background-single.png" width="1500px">
+<img id="enemyImage" src="file:///home/ayanshh/Music/my%20drawings./my%20files%20if%20i%20want/mario-game/assets/enemy.png" width="750px">
+<style>
+body {
+background: black;
+}
+
+#canvas1 {
+background: black;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+#playerImage, #backgroundImage, #enemyImage {
+display: none;
+}
+
+.pause {
+z-index: 1;
+position: absolute;
+left: 85%;
+/*border: 5px solid black;*/
+}
+</style>
+<script src="index.js"></script>
+</body>
+</html>
