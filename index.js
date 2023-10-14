@@ -67,12 +67,12 @@ this.image = document.getElementById('playerImage');
 this.maxFrame = 8;
 this.frameX = 0;
 this.frameY = 0;
-this.fps = 60;
+this.fps = 70;
 this.frameTimer = 0;
 this.frameInterval = 1000/this.fps;
-this.speed = 1;
+this.speed = 2.5;
 this.vy = 0;
-this.weight = 1;
+this.weight = 1.5;
 }
 draw(context){
 //context.fillStyle = 'white';
@@ -167,10 +167,10 @@ this.x = this.gameWidth;
 this.y = this.gameHeight - this.height;
 this.frameX = 0;
 this.maxFrame = 5;
-this.fps = 20;
+this.fps = 60;
 this.frameTimer = 0;
 this.frameInterval = 1000/this.fps;
-this.speed = 5;
+this.speed = 2.5;
 }
 draw(context){
 /*context.strokeStyle = "white"
@@ -205,7 +205,7 @@ function handleEnemies(deltaTime) {
 if (enemyTimer > enemyInterval + randomEnemyInterval){
 enemies.push(new Enemy(canvas.width, canvas.height));
 console.log(enemies);
-randomEnemyInterval = Math.random();
+randomEnemyInterval = Math.random() * 1000 + 500;
 enemyTimer = 0;
 } else {
 enemyTimer += deltaTime;
@@ -255,5 +255,3 @@ if (!gameOver) requestAnimationFrame(animate);
 }
 animate(0);
 });
-
-
