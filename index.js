@@ -205,7 +205,7 @@ function handleEnemies(deltaTime) {
 if (enemyTimer > enemyInterval + randomEnemyInterval){
 enemies.push(new Enemy(canvas.width, canvas.height));
 console.log(enemies);
-randomEnemyInterval = Math.random() * 1.5 * 1000 + 1500;
+randomEnemyInterval = Math.random() * 1000 + 500;
 enemyTimer = 0;
 } else {
 enemyTimer += deltaTime;
