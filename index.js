@@ -23,7 +23,7 @@ this.keys = [];
 window.addEventListener('keydown', e => {
 if ((e.key === 'ArrowDown' || 
 e.key === 'ArrowUp' ||
-e.key === 'ArrowRight')
+e.key === 'ArrowLeft')
 && this.keys.indexOf(e.key) === -1){
 this.keys.push(e.key);
 }
@@ -31,7 +31,7 @@ this.keys.push(e.key);
 window.addEventListener('keyup', e => {
 if ((e.key === 'ArrowDown' || 
 e.key === 'ArrowUp' ||
-e.key === 'ArrowRight')
+e.key === 'ArrowLeft')
 && this.keys.indexOf(e.key) === 1){
 this.keys.splice(this.keys.indexOf(e.key), 1);
 }
@@ -39,7 +39,7 @@ this.keys.splice(this.keys.indexOf(e.key), 1);
 window.addEventListener('keyup', e => {
 if ((e.key === 'ArrowDown' || 
 e.key === 'ArrowUp' ||
-e.key === 'ArrowRight')
+e.key === 'ArrowLeft')
 && this.keys.indexOf(e.key) === 0){
 this.keys.splice(this.keys.indexOf(e.key), 1);
 }
@@ -59,9 +59,9 @@ this.image = document.getElementById('playerImage');
 this.maxFrame = 8;
 this.frameX = 0;
 this.frameY = 0;
-this.fps = 70;
+this.fps = 60;
 this.frameTimer = 0;
-this.frameInterval = 1000/this.fps;
+this.frameInterval = 60/this.fps;
 this.speed = 2.5;
 this.vy = 0;
 this.weight = 1.5;
@@ -96,9 +96,7 @@ this.frameTimer = 0;
 } else {
 this.frameTimer += deltaTime;
 }
-if (input.keys.indexOf('ArrowRight') > -1){
-this.speed = 5;
-} else if (input.keys.indexOf('ArrowLeft') > -1) {
+if (input.keys.indexOf('ArrowLeft') > -1){
 this.speed = -5;
 } else if (input.keys.indexOf('ArrowUp') > -1) {
 this.vy -= 3;
