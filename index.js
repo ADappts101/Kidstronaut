@@ -1,51 +1,25 @@
-window.addEventListener('load', function(){
-const canvas = document.getElementById('canvas1');
-const ctx = canvas.getContext('2d');
-canvas.width = screen.availWidth;
-canvas.height = window.innerHeight;
-let gameOver = false;
-      // function init() {
-      //   if (canvas.getContext) {
-      //     window.addEventListener('resize', resizeCanvas, false);
-      //     window.addEventListener('orientationchange', resizeCanvas, false);
-      //     resizeCanvas();
-      //   }
-      // }
- 
-      // function resizeCanvas() {
-      //   canvas.width = window.innerWidth;
-      //   canvas.height = window.innerHeight;
-      // }
+window.addEventListener('load', function () {
+  const canvas = document.getElementById('canvas1');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  let gameOver = false;
 
-class InputHandler {
-constructor(){
-this.keys = [];
-window.addEventListener('keydown', e => {
-if ((e.key === 'ArrowDown' || 
-e.key === 'ArrowUp' ||
-e.key === 'ArrowLeft')
-&& this.keys.indexOf(e.key) === -1){
-this.keys.push(e.key);
-}
-});
-window.addEventListener('keyup', e => {
-if ((e.key === 'ArrowDown' || 
-e.key === 'ArrowUp' ||
-e.key === 'ArrowLeft')
-&& this.keys.indexOf(e.key) === 1){
-this.keys.splice(this.keys.indexOf(e.key), 1);
-}
-});
-window.addEventListener('keyup', e => {
-if ((e.key === 'ArrowDown' || 
-e.key === 'ArrowUp' ||
-e.key === 'ArrowLeft')
-&& this.keys.indexOf(e.key) === 0){
-this.keys.splice(this.keys.indexOf(e.key), 1);
-}
-}
-)};
-}
+  class InputHandler {
+    constructor() {
+      this.keys = [];
+      window.addEventListener('keydown', e => {
+        if (['ArrowDown', 'ArrowUp', 'ArrowLeft'].includes(e.key) && this.keys.indexOf(e.key) === -1) {
+          this.keys.push(e.key);
+        }
+      });
+      window.addEventListener('keyup', e => {
+        if (['ArrowDown', 'ArrowUp', 'ArrowLeft'].includes(e.key) && this.keys.indexOf(e.key) !== -1) {
+          this.keys.splice(this.keys.indexOf(e.key), 1);
+        }
+      });
+    }
+  }
 
 class Player {
 constructor(gameWidth, gameHeight){
@@ -223,25 +197,59 @@ context.fillText('!!!GAME OVER!!!', canvas.width/2, 200 - 2);
 }
 
 const input = new InputHandler();
-const player = new Player(canvas.width, canvas.height);
-const background = new Background(canvas.width, canvas.height);
+  const player = new Player(canvas.width, canvas.height);
+  const background = new Background(canvas.width, canvas.height);
+  let score = 0;
+  let enemies = [];
 
-let lastTime = 0;
-let enemyTimer = 0;
-let enemyInterval = 1000;
-let randomEnemyInterval = Math.random() * 1000 + 500;
+  let lastTime = 0;
+  let enemyTimer = 0;
+  let enemyInterval = 1000;
+  let randomEnemyInterval = Math.random() * 1000 + 500;
 
-function animate(timeStamp) {
-const deltaTime = timeStamp - lastTime;
-lastTime = timeStamp;
-ctx.clearRect(0, 0, canvas.width, canvas.height);
-background.draw(ctx);
-background.update();
-player.draw(ctx);
-player.update(input, deltaTime, enemies);
-handleEnemies(deltaTime);
-displayStatusText(ctx);
-if (!gameOver) requestAnimationFrame(animate);
-}
-animate(0);
+  function animate(timeStamp) {
+    const deltaTime = timeStamp - lastTime;
+    lastTime = timeStamp;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    background.draw(ctx);
+    background.update();
+    player.draw(ctx);
+    player.update(input, deltaTime, enemies);
+    handleEnemies(deltaTime);
+    displayStatusText(ctx);
+    if (!gameOver) requestAnimationFrame(animate);
+  }
+
+  function handleEnemies(deltaTime) {
+    if (enemyTimer > enemyInterval + randomEnemyInterval) {
+      enemies.push(new Enemy(canvas.width, canvas.height));
+      console.log(enemies);
+      randomEnemyInterval = Math.random() * 1000 + 500;
+      enemyTimer = 0;
+    } else {
+      enemyTimer += deltaTime;
+    }
+    enemies.forEach(enemy => {
+      enemy.draw(ctx);
+      enemy.update(deltaTime);
+    });
+    enemies = enemies.filter(enemy => !enemy.markedForDeletion);
+  }
+
+  function displayStatusText(context) {
+    context.font = '40px Helvetica';
+    context.fillStyle = 'blue';
+    context.fillText('Score: ' + score, 22, 52);
+    context.fillStyle = 'pink';
+    context.fillText('Score: ' + score, 20, 50);
+    if (gameOver) {
+      context.textAlign = 'center';
+      context.fillStyle = 'black';
+      context.fillText('!!!GAME OVER!!!', canvas.width / 2, 200);
+      context.fillStyle = 'white';
+      context.fillText('!!!GAME OVER!!!', canvas.width / 2, 200 - 2);
+    }
+  }
+
+  animate(0);
 });
