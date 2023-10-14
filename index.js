@@ -115,8 +115,9 @@ draw(context){
   context.drawImage(this.image, this.x, this.y - this.height, this.width, this.height);
 }
 update(){
-this.x -= this.speed;
-if (this.x < 0 - this.width) this.x = 0;
+  this.y -= this.speed;
+  if (this.y < 0) {
+  this.y = this.gameHeight - this.height;
 }
 }
 
