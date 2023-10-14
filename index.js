@@ -1,8 +1,6 @@
 window.addEventListener('load', function(){
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
-canvas.width = 855;
-canvas.height = 680;
 let enemies = [];
 let score = 0;
 let gameOver = false;
