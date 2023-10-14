@@ -2,7 +2,7 @@ window.addEventListener('load', function(){
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight / 3;
+canvas.height = window.innerHeight;
 let enemies = [];
 let score = 0;
 let gameOver = false;
