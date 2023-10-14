@@ -137,7 +137,7 @@ this.frameX = 0;
 this.maxFrame = 5;
 this.fps = 60;
 this.frameTimer = 0;
-this.frameInterval = 1000/this.fps;
+this.frameInterval = 90/this.fps;
 this.speed = 2.5;
 }
 draw(context){
