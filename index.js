@@ -4,18 +4,18 @@ const ctx = canvas.getContext('2d');
 canvas.width = screen.availWidth;
 canvas.height = window.innerHeight;
 let gameOver = false;
-      function init() {
-        if (canvas.getContext) {
-          window.addEventListener('resize', resizeCanvas, false);
-          window.addEventListener('orientationchange', resizeCanvas, false);
-          resizeCanvas();
-        }
-      }
+      // function init() {
+      //   if (canvas.getContext) {
+      //     window.addEventListener('resize', resizeCanvas, false);
+      //     window.addEventListener('orientationchange', resizeCanvas, false);
+      //     resizeCanvas();
+      //   }
+      // }
  
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
+      // function resizeCanvas() {
+      //   canvas.width = window.innerWidth;
+      //   canvas.height = window.innerHeight;
+      // }
 
 class InputHandler {
 constructor(){
