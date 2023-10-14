@@ -2,15 +2,12 @@ window.addEventListener('load', function(){
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight * 3/100;
+canvas.height = window.innerHeight / 3;
 let enemies = [];
 let score = 0;
 let gameOver = false;
       function init() {
-        canvas = document.getElementById('canvas');
         if (canvas.getContext) {
-          ctx = canvas.getContext("2d");
- 
           window.addEventListener('resize', resizeCanvas, false);
           window.addEventListener('orientationchange', resizeCanvas, false);
           resizeCanvas();
