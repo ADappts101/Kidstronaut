@@ -21,25 +21,25 @@ window.addEventListener('load', function () {
     }
   }
 
-var sprite = document.querySelector("#playerImage");
-  function moveSprite(direction) {
-    const step = 10; // Adjust the step size as needed
+// var sprite = document.querySelector("#playerImage");
+//   function moveSprite(direction) {
+//     const step = 10; // Adjust the step size as needed
 
-    switch (direction) {
-      case 'up':
-        sprite.style.top = `${parseFloat(sprite.style.top) - step}px`;
-        break;
-      case 'down':
-        sprite.style.top = `${parseFloat(sprite.style.top) + step}px`;
-        break;
-      case 'left':
-        sprite.style.left = `${parseFloat(sprite.style.left) - step}px`;
-        break;
-      case 'right':
-        sprite.style.left = `${parseFloat(sprite.style.left) + step}px`;
-        break;
-    }
-  }
+//     switch (direction) {
+//       case 'up':
+//         sprite.style.top = `${parseFloat(sprite.style.top) - step}px`;
+//         break;
+//       case 'down':
+//         sprite.style.top = `${parseFloat(sprite.style.top) + step}px`;
+//         break;
+//       case 'left':
+//         sprite.style.left = `${parseFloat(sprite.style.left) - step}px`;
+//         break;
+//       case 'right':
+//         sprite.style.left = `${parseFloat(sprite.style.left) + step}px`;
+//         break;
+//     }
+//   }
 
 class Player {
 constructor(gameWidth, gameHeight){
