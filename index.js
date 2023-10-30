@@ -130,6 +130,7 @@ this.width = 2400;
 this.height = 720;
 this.speed = 7;
 }
+}
 draw(context){
   context.drawImage(this.image, this.x, this.y, this.width, this.height);
   context.drawImage(this.image, this.x, this.y - this.height, this.width, this.height);
