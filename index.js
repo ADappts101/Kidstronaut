@@ -9,12 +9,12 @@ window.addEventListener('load', function () {
     constructor() {
       this.keys = [];
       window.addEventListener('keydown', e => {
-        if (['ArrowDown', 'ArrowUp', 'ArrowLeft'].includes(e.key) && this.keys.indexOf(e.key) === -1) {
+        if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key) && this.keys.indexOf(e.key) === -1) {
           this.keys.push(e.key);
         }
       });
       window.addEventListener('keyup', e => {
-        if (['ArrowDown', 'ArrowUp', 'ArrowLeft'].includes(e.key) && this.keys.indexOf(e.key) !== -1) {
+        if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key) && this.keys.indexOf(e.key) !== -1) {
           this.keys.splice(this.keys.indexOf(e.key), 1);
         }
       });
