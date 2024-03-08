@@ -1,45 +1,59 @@
-window.addEventListener('load', function () {
-  const canvas = document.getElementById('canvas1');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  let gameOver = false;
-
-  class InputHandler {
-    constructor() {
-      this.keys = [];
-      window.addEventListener('keydown', e => {
-        if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key) && this.keys.indexOf(e.key) === -1) {
-          this.keys.push(e.key);
+window.addEventListener('load', function(){
+const canvas = document.getElementById('canvas1');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let enemies = [];
+let score = 0;
+let gameOver = false;
+      function init() {
+        canvas = document.getElementById('canvas');
+        if (canvas.getContext) {
+          ctx = canvas.getContext("2d");
+ 
+          window.addEventListener('resize', resizeCanvas, false);
+          window.addEventListener('orientationchange', resizeCanvas, false);
+          resizeCanvas();
         }
-      });
-      window.addEventListener('keyup', e => {
-        if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key) && this.keys.indexOf(e.key) !== -1) {
-          this.keys.splice(this.keys.indexOf(e.key), 1);
-        }
-      });
-    }
-  }
+      }
+ 
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
 
-// var sprite = document.querySelector("#playerImage");
-//   function moveSprite(direction) {
-//     const step = 10; // Adjust the step size as needed
-
-//     switch (direction) {
-//       case 'up':
-//         sprite.style.top = `${parseFloat(sprite.style.top) - step}px`;
-//         break;
-//       case 'down':
-//         sprite.style.top = `${parseFloat(sprite.style.top) + step}px`;
-//         break;
-//       case 'left':
-//         sprite.style.left = `${parseFloat(sprite.style.left) - step}px`;
-//         break;
-//       case 'right':
-//         sprite.style.left = `${parseFloat(sprite.style.left) + step}px`;
-//         break;
-//     }
-//   }
+class InputHandler {
+constructor(){
+this.keys = [];
+window.addEventListener('keydown', e => {
+if ((e.key === 'ArrowDown' || 
+e.key === 'ArrowUp' || 
+e.key === 'ArrowLeft' || 
+e.key === 'ArrowRight')
+&& this.keys.indexOf(e.key) === -1){
+this.keys.push(e.key);
+}
+});
+window.addEventListener('keyup', e => {
+if ((e.key === 'ArrowDown' || 
+e.key === 'ArrowUp' || 
+e.key === 'ArrowLeft' || 
+e.key === 'ArrowRight')
+&& this.keys.indexOf(e.key) === 1){
+this.keys.splice(this.keys.indexOf(e.key), 1);
+}
+});
+window.addEventListener('keyup', e => {
+if ((e.key === 'ArrowDown' || 
+e.key === 'ArrowUp' || 
+e.key === 'ArrowLeft' || 
+e.key === 'ArrowRight')
+&& this.keys.indexOf(e.key) === 0){
+this.keys.splice(this.keys.indexOf(e.key), 1);
+}
+}
+)};
+}
 
 class Player {
 constructor(gameWidth, gameHeight){
@@ -55,10 +69,10 @@ this.frameX = 0;
 this.frameY = 0;
 this.fps = 60;
 this.frameTimer = 0;
-this.frameInterval = 60/this.fps;
-this.speed = 2.5;
+this.frameInterval = 1000/this.fps;
+this.speed = 1;
 this.vy = 0;
-this.weight = 1.5;
+this.weight = 1;
 }
 draw(context){
 //context.fillStyle = 'white';
@@ -90,7 +104,9 @@ this.frameTimer = 0;
 } else {
 this.frameTimer += deltaTime;
 }
-if (input.keys.indexOf('ArrowLeft') > -1){
+if (input.keys.indexOf('ArrowRight') > -1){
+this.speed = 5;
+} else if (input.keys.indexOf('ArrowLeft') > -1) {
 this.speed = -5;
 } else if (input.keys.indexOf('ArrowUp') > -1) {
 this.vy -= 3;
@@ -131,13 +147,12 @@ this.height = 720;
 this.speed = 7;
 }
 draw(context){
-  context.drawImage(this.image, this.x, this.y, this.width, this.height);
-  context.drawImage(this.image, this.x, this.y - this.height, this.width, this.height);
+    context.drawImage(this.image, this.x, this.y, this.width, this.height);
+    context.drawImage(this.image, this.x + this.width - this.speed, this.y, this.width, this.height);
 }
 update(){
-  this.y -= this.speed;
-  if (this.y < 0) {
-  this.y = this.gameHeight - this.height;
+this.x -= this.speed;
+if (this.x < 0 - this.width) this.x = 0;
 }
 }
 
@@ -152,10 +167,10 @@ this.x = this.gameWidth;
 this.y = this.gameHeight - this.height;
 this.frameX = 0;
 this.maxFrame = 5;
-this.fps = 60;
+this.fps = 20;
 this.frameTimer = 0;
-this.frameInterval = 90/this.fps;
-this.speed = 2.5;
+this.frameInterval = 1000/this.fps;
+this.speed = 5;
 }
 draw(context){
 /*context.strokeStyle = "white"
@@ -190,7 +205,7 @@ function handleEnemies(deltaTime) {
 if (enemyTimer > enemyInterval + randomEnemyInterval){
 enemies.push(new Enemy(canvas.width, canvas.height));
 console.log(enemies);
-randomEnemyInterval = Math.random() * 1000 + 2000;
+randomEnemyInterval = Math.random() * 1000 + 1073;
 enemyTimer = 0;
 } else {
 enemyTimer += deltaTime;
@@ -217,60 +232,27 @@ context.fillText('!!!GAME OVER!!!', canvas.width/2, 200 - 2);
 }
 }
 
-  const input = new InputHandler();
-  const player = new Player(canvas.width, canvas.height);
-  const background = new Background(canvas.width, canvas.height);
-  let score = 0;
-  let enemies = [];
+const input = new InputHandler();
+const player = new Player(canvas.width, canvas.height);
+const background = new Background(canvas.width, canvas.height);
 
-  let lastTime = 0;
-  let enemyTimer = 0;
-  let enemyInterval = 1000;
-  let randomEnemyInterval = Math.random() * 1000 + 500;
+let lastTime = 0;
+let enemyTimer = 0;
+let enemyInterval = 1000;
+let randomEnemyInterval = Math.random() * 1000 + 500;
 
-  function animate(timeStamp) {
-    const deltaTime = timeStamp - lastTime;
-    lastTime = timeStamp;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    background.draw(ctx);
-    background.update();
-    player.draw(ctx);
-    player.update(input, deltaTime, enemies);
-    handleEnemies(deltaTime);
-    displayStatusText(ctx);
-    if (!gameOver) requestAnimationFrame(animate);
-  }
-
-  function handleEnemies(deltaTime) {
-    if (enemyTimer > enemyInterval + randomEnemyInterval) {
-      enemies.push(new Enemy(canvas.width, canvas.height));
-      console.log(enemies);
-      randomEnemyInterval = Math.random() * 1000 + 500;
-      enemyTimer = 0;
-    } else {
-      enemyTimer += deltaTime;
-    }
-    enemies.forEach(enemy => {
-      enemy.draw(ctx);
-      enemy.update(deltaTime);
-    });
-    enemies = enemies.filter(enemy => !enemy.markedForDeletion);
-  }
-
-  function displayStatusText(context) {
-    context.font = '40px Helvetica';
-    context.fillStyle = 'blue';
-    context.fillText('Score: ' + score, 22, 52);
-    context.fillStyle = 'pink';
-    context.fillText('Score: ' + score, 20, 50);
-    if (gameOver) {
-      context.textAlign = 'center';
-      context.fillStyle = 'black';
-      context.fillText('!!!GAME OVER!!!', canvas.width / 2, 200);
-      context.fillStyle = 'white';
-      context.fillText('!!!GAME OVER!!!', canvas.width / 2, 200 - 2);
-    }
-  }
-
-  animate(0);
+function animate(timeStamp) {
+const deltaTime = timeStamp - lastTime;
+lastTime = timeStamp;
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+background.draw(ctx);
+background.update();
+player.draw(ctx);
+player.update(input, deltaTime, enemies);
+handleEnemies(deltaTime);
+displayStatusText(ctx);
+if (!gameOver) requestAnimationFrame(animate);
+}
+animate(0);
 });
+
